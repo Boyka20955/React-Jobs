@@ -10,7 +10,7 @@ const HomePage = () => {
       <Hero />
       <HomeCards />
       {/* Show only 3 jobs on home */}
-      <JobListings limit={3} />
+      <JobListings isHome={true} />
       <ViewAllJobs />
     </>
   );

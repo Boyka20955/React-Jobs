@@ -1,11 +1,25 @@
-import {useParams, useLoaderData } from "react-router-dom";
+import { useParams, useLoaderData, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-const JobPage = () => {
+import {toast} from 'react-toastify'
+const JobPage = ({ deleteJob }) => {
   const { id } = useParams();
   const job = useLoaderData();
-  console.log("Loaded job:", job); // 🔍 Debug log
+  const navigate = useNavigate();
+
+  const onDeleteClick = async (jobId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this listing?");
+    if (!confirmDelete) return;
+
+    try {
+      await deleteJob(jobId);
+      toast.success('jobs deleted successfully');
+      navigate("/jobs");
+    } catch (err) {
+      alert("Failed to delete job. Check console for details.");
+      console.error("Delete failed:", err);
+    }
+  };
 
   if (!job) {
     return <p className="text-center py-10">No job data found</p>;
@@ -19,7 +33,7 @@ const JobPage = () => {
             to="/jobs"
             className="text-indigo-500 hover:text-indigo-600 flex items-center"
           >
-        <FaArrowLeft className="mr-2"/> Back to Job Listings
+            <FaArrowLeft className="mr-2" /> Back to Job Listings
           </Link>
         </div>
       </section>
@@ -72,12 +86,13 @@ const JobPage = () => {
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h3 className="text-xl font-bold mb-6">Manage Job</h3>
                 <Link
-                  to={`/jobs/edit/${job.id}`}
+                  to={`/edit-jobs/${job.id}`}
                   className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full block"
                 >
                   Edit Job
                 </Link>
                 <button
+                  onClick={() => onDeleteClick(job.id)}
                   className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full mt-4"
                 >
                   Delete Job
@@ -93,7 +108,11 @@ const JobPage = () => {
 
 // ✅ Loader
 const jobLoader = async ({ params }) => {
+<<<<<<< HEAD
   const res = await fetch(`/api/jobs/${params.id}`);
+=======
+  const res = await fetch(`http://localhost:8000/jobs/${params.id}`);
+>>>>>>> 1f5bfd5 (Initial commit - React Jobs project)
 
   if (!res.ok) {
     throw new Response("Job not found", { status: 404 });
@@ -103,6 +122,9 @@ const jobLoader = async ({ params }) => {
   return data;
 };
 
+<<<<<<< HEAD
 // ✅ Export both
+=======
+>>>>>>> 1f5bfd5 (Initial commit - React Jobs project)
 export { jobLoader };
 export default JobPage;

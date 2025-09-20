@@ -108,11 +108,7 @@ const JobPage = ({ deleteJob }) => {
 
 // ✅ Loader
 const jobLoader = async ({ params }) => {
-<<<<<<< HEAD
-  const res = await fetch(`/api/jobs/${params.id}`);
-=======
   const res = await fetch(`http://localhost:8000/jobs/${params.id}`);
->>>>>>> 1f5bfd5 (Initial commit - React Jobs project)
 
   if (!res.ok) {
     throw new Response("Job not found", { status: 404 });
@@ -122,9 +118,5 @@ const jobLoader = async ({ params }) => {
   return data;
 };
 
-<<<<<<< HEAD
-// ✅ Export both
-=======
->>>>>>> 1f5bfd5 (Initial commit - React Jobs project)
 export { jobLoader };
 export default JobPage;
